@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+set -e
+
+export LC_ALL=C
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+ROOT_DIR="$SCRIPT_DIR/../.."
+
+TMP_DIR=$(mktemp -d)
+
+cd "$TMP_DIR"
+
+######################
+
+function fail() {
+  echo
+  echo "Arguments: $(printf "'%s' " "$@")"
+  exit 1
+}
+
+function test_solution() {
+  diff -U 1000 \
+    <(echo "$EXPECTED") \
+    <(bash "$ROOT_DIR/solution/task4.sh" "$@") \
+    || fail "$@"
+}
+
+
+echo "Test case #1"
+
+EXPECTED='Freitag, 13. Oktober 2023'
+test_solution '2023-10-13'
+
+
+echo "Test case #2"
+
+EXPECTED='Donnerstag, 01. Januar 1970'
+test_solution '@0'
+
+
+echo "Test case #3"
+
+EXPECTED='Donnerstag, 29. Februar 2024'
+test_solution '2024-02-29'

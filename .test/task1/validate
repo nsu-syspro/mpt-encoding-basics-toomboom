@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+set -e
+
+export LC_ALL=C
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+ROOT_DIR="$SCRIPT_DIR/../.."
+
+######################
+
+function test_solution() {
+  FILE="$1"
+  if [[ "UTF-8" != "$(uchardet "$FILE")" ]]; then
+    echo "$FILE is not encoded in UTF-8"
+    exit 1
+  fi
+}
+
+cd "$ROOT_DIR"
+
+echo "Test case #1 (solution/task2.sh)"
+test_solution "solution/task2.sh"
+
+echo "Test case #2 (solution/task3.sh)"
+test_solution "solution/task3.sh"
+
+echo "Test case #3 (solution/task4.sh)"
+test_solution "solution/task4.sh"

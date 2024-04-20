@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+set -e
+
+export LC_ALL=C
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+ROOT_DIR="$SCRIPT_DIR/../.."
+
+TMP_DIR=$(mktemp -d)
+
+cd "$TMP_DIR"
+
+######################
+
+function fail() {
+  echo
+  echo "Arguments: $(printf "'%s' " "$@")"
+  exit 1
+}
+
+function test_solution() {
+  diff -U 1000 \
+    <(echo "$EXPECTED") \
+    <(bash "$ROOT_DIR/solution/task2.sh" "$@") \
+    || fail "$@"
+}
+
+
+echo "Test case #1"
+
+EXPECTED='15 час/а/ов 23 минут/ы'
+test_solution '15:23:42'
+
+
+echo "Test case #2"
+
+EXPECTED='00 час/а/ов 00 минут/ы'
+test_solution '00:00:00'
+
+
+echo "Test case #3"
+
+EXPECTED='23 час/а/ов 59 минут/ы'
+test_solution '23:59:00'
