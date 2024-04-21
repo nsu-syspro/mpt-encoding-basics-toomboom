@@ -2,8 +2,7 @@ name: Autograding Tests
 'on':
   push:
     branches:
-    - '*'
-    - '!badges'
+    - 'main'
   workflow_dispatch:
   repository_dispatch:
 permissions:
