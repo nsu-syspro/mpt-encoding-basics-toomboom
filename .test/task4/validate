@@ -20,7 +20,7 @@ function fail() {
 }
 
 function test_solution() {
-  diff -U 1000 \
+  diff --color=always -U 1000 \
     <(echo "$EXPECTED") \
     <(bash "$ROOT_DIR/solution/task4.sh" "$@") \
     || fail "$@"
