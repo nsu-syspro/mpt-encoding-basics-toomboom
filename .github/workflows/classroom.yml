@@ -19,8 +19,23 @@ jobs:
       # Setup outputs for update-points-bar job below
       points: ${{ steps.autograder.outputs.points }}
     steps:
+    - name: Initialize environment
+      run: |
+        sudo apt-get update && sudo apt-get install uchardet tzdata locales -y   
+        uchardet --version
+        sudo locale-gen ru_RU.UTF-8
+        sudo locale-gen ru_RU
+        sudo locale-gen de_DE.UTF-8
+        sudo locale-gen de_DE
+        locale -a
+
     - name: Checkout code
       uses: actions/checkout@v4
+
+    - name: Run ShellCheck
+      uses: ludeeus/action-shellcheck@master
+      with:
+        scandir: './.test'
 
     - name: 'Task #1'
       id: task-1
